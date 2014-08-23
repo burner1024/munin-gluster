@@ -137,9 +137,9 @@ if ( $DEBUG == 1 ) {
 # This will create a label name correctly
 sub createLabelName {
   my $brickName = $_[0];
-  $brickName =~ s/\./_/g; # Convert dots
-  $brickName =~ s/:/_/g;  # Convert semicolons
-  $brickName =~ s/\///g;  # Remove slashes
+#  $brickName =~ s/\./_/g; # Convert dots
+#  $brickName =~ s/:/_/g;  # Convert semicolons
+#  $brickName =~ s/\///g;  # Remove slashes
   return ($brickName);
 }
 
