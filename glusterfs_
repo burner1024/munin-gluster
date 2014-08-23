@@ -92,7 +92,7 @@ if ( ! defined $Command or $Command eq "" ) {
 my %config = (
   open => {
     callparams => "open",
-    label => 'Open FD count',
+    label => '',
     title => "Volume $Volume: Open FD count",
     vlabel => 'FDs',
     graph_args => '--base 1000 -l 0',
@@ -101,18 +101,18 @@ my %config = (
   },
   readperf => {
     callparams => "read-perf bs $BlockSize count $BlockCount",
-    label => 'Read performance',
+    label => '',
     title => "Volume $Volume: Read performance",
-    vlabel => 'MBps/secs',
+    vlabel => 'MBps/sec',
     graph_args => '--base 1000 -l 0',
     info_tag => "Read performance",
     description => "Read performance for Volume $Volume."
   },
   writeperf => {
     callparams => "write-perf bs $BlockSize count $BlockCount",
-    label => 'Write performance',
+    label => '',
     title => "Volume $Volume: Write performance",
-    vlabel => 'MBps/secs',
+    vlabel => 'MBps/sec',
     graph_args => '--base 1000 -l 0',
     info_tag => "Write performance",
     description => "Write performance for Volume $Volume."
@@ -191,8 +191,8 @@ if ( $ARGV[0] and $ARGV[0] eq "config" ) {
 #        print "${bricklabel}_${Type}_max.label $brick $config{$Type}->{label} max\n";
 #        print "${bricklabel}_${Type}_max.info $brick Max $config{$Type}->{info_tag}\n";
       } else {
-        print "${bricklabel}_${Type}_throughput.label $brick $config{$Type}->{label} throughput in MBps\n";
-        print "${bricklabel}_${Type}_throughput.info $brick $config{$Type}->{info_tag} throughput in MBps\n";
+        print "${bricklabel}_${Type}_throughput.label $brick $config{$Type}->{label}\n";
+        print "${bricklabel}_${Type}_throughput.info $brick $config{$Type}->{info_tag}\n";
 #        print "${bricklabel}_${Type}_time.label $brick $config{$Type}->{label} time in sec\n";
 #        print "${bricklabel}_${Type}_time.info $brick $config{$Type}->{info_tag} time in sec\n";
       }
