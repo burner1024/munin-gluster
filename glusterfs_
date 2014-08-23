@@ -216,13 +216,13 @@ foreach my $Line (@Output) {
     if ( $Line=~ /Current\sopen\sfds:\s+(\d+),\sMax\sopen\sfds:\s+(\d+)/i ) {
       my ($current, $max) = ($1, $2);
       print "${bricklabel}_${Type}_current.value $current\n";
-      print "${bricklabel}_${Type}_max.value $max\n";
+#      print "${bricklabel}_${Type}_max.value $max\n";
     }
   } else {
     if ( $Line=~ /Throughput\s+(\d+).(\d+)\s+MBps\s+time\s+(\d+).(\d+)\s+secs/i ) {
       my ($tpi, $tpf, $ti, $tf) = ($1, $2, $3, $4);
       print "${bricklabel}_${Type}_throughput.value $tpi.$tpf\n";
-      print "${bricklabel}_${Type}_time.value $ti.$tf\n";
+#      print "${bricklabel}_${Type}_time.value $ti.$tf\n";
     }
   }
 }
