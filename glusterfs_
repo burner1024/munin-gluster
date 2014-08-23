@@ -130,6 +130,9 @@ $Command .= $CommandParams;
 $Command .= $config{$Type}->{callparams};
 $Command .= $CommandBrickParams;
 
+my $CommandAdditionalParams = " list-cnt 0";
+$Command .= $CommandAdditionalParams;
+
 if ( $DEBUG == 1 ) { 
   print "Command: $Command\n";
 }
