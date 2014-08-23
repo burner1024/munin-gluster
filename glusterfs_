@@ -188,13 +188,13 @@ if ( $ARGV[0] and $ARGV[0] eq "config" ) {
       if ( $Type eq "open" ) {
         print "${bricklabel}_${Type}_current.label $brick $config{$Type}->{label} current\n";
         print "${bricklabel}_${Type}_current.info $brick Current $config{$Type}->{info_tag}\n";
-        print "${bricklabel}_${Type}_max.label $brick $config{$Type}->{label} max\n";
-        print "${bricklabel}_${Type}_max.info $brick Max $config{$Type}->{info_tag}\n";
+#        print "${bricklabel}_${Type}_max.label $brick $config{$Type}->{label} max\n";
+#        print "${bricklabel}_${Type}_max.info $brick Max $config{$Type}->{info_tag}\n";
       } else {
         print "${bricklabel}_${Type}_throughput.label $brick $config{$Type}->{label} throughput in MBps\n";
         print "${bricklabel}_${Type}_throughput.info $brick $config{$Type}->{info_tag} throughput in MBps\n";
-        print "${bricklabel}_${Type}_time.label $brick $config{$Type}->{label} time in sec\n";
-        print "${bricklabel}_${Type}_time.info $brick $config{$Type}->{info_tag} time in sec\n";
+#        print "${bricklabel}_${Type}_time.label $brick $config{$Type}->{label} time in sec\n";
+#        print "${bricklabel}_${Type}_time.info $brick $config{$Type}->{info_tag} time in sec\n";
       }
     }
   }
