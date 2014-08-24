@@ -42,28 +42,38 @@ my $Revision = 0.1;
 my $DEBUG = 0;
 
 my $Brick = "";  # Brick name found
-my $Volume = exists $ENV{'volume'} ? $ENV{'volume'} : "none"; # Volume name
-my $Share = exists $ENV{'share'} ? $ENV{'share'} : "none"; # Share name
+my $Share = "";
+my $Volume = "";
+#my $Volume = exists $ENV{'volume'} ? $ENV{'volume'} : "none"; # Volume name
+#my $Share = exists $ENV{'share'} ? $ENV{'share'} : "none"; # Share name
 my $BlockSize = exists $ENV{'blocksize'} ? $ENV{'blocksize'} : "256"; # Block size for performance tests
 my $BlockCount = exists $ENV{'blockcount'} ? $ENV{'blockcount'} : "1"; # Block count for performance tests
 my $Type = "";  # Define what needs to be done
 
 # Make sure the volume name is defined
-if ( ! defined $Volume or $Volume eq "none" ) {
-  print "The volume name must be fined in plugin-conf.d \n";
-  exit 1;
-}
+#if ( ! defined $Volume or $Volume eq "none" ) {
+#  print "The volume name must be fined in plugin-conf.d \n";
+#  exit 1;
+#}
 
 # Make sure the share name is defined
 if ( ! defined $Share or $Share eq "none" ) {
-  print "The share name must be fined in plugin-conf.d \n";
+  print "The share name must be defined in plugin-conf.d \n";
   exit 1;
 }
 
 # Parse out Brick number desired from file name and remove whitespace
 my $Parameters = `basename $0 | sed 's/^glusterfs_//g'` ; 
 chomp $Parameters;
-my ($b, $t) = split( /_/, $Parameters );
+#my ($b, $t) = split( /_/, $Parameters );
+my ($v, $b, $t) = split( /_/, $Parameters );
+
+if ( ! defined $v or $v eq "") {
+  print "The volume name must be defined in plugin filename \n";
+  exit 1;
+} else {
+  $Volume = $v;
+}
 
 if ( defined $b and $b ne "" ) {
   $Brick = $b;
@@ -123,7 +133,10 @@ my %config = (
 my $CommandParams = " volume top $Volume ";
 my $CommandBrickParams = "";
 if ( defined $Brick and $Brick ne "" ) {
-  $CommandBrickParams = " brick ${Brick}:/${Share}";
+  $Brick = `gluster volume status ${Volume} | grep 'Brick ${Brick}:/' | awk '{print \$2}'`;
+  $Brick =~ s/\n//;
+#  $CommandBrickParams = " brick ${Brick}:/${Share}";
+  $CommandBrickParams = " brick ${Brick}";
 }
 
 $Command .= $CommandParams;
