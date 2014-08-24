@@ -184,7 +184,7 @@ if ( $ARGV[0] and $ARGV[0] eq "config" ) {
       my $bricklabel = createLabelName($brick);
       
       if ( $Type eq "open" ) {
-        print "${bricklabel}_${Type}_current.label $brick $config{$Type}->{label} current\n";
+        print "${bricklabel}_${Type}_current.label $brick $config{$Type}->{label}\n";
         print "${bricklabel}_${Type}_current.info $brick Current $config{$Type}->{info_tag}\n";
       } else {
         print "${bricklabel}_${Type}_throughput.label $brick $config{$Type}->{label}\n";
