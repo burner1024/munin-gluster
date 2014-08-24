@@ -21,8 +21,6 @@
 # 
 #       [glusterfs_*]
 #       user root                   # Mandatory
-#       env.volume <volume_name>    # Mandatory
-#       env.share <share_name>      # Mandatory
 #       env.blocksize <blocksize>   # Optional
 #       env.blockcount <blockcount> # Optional
 # 
@@ -44,17 +42,9 @@ my $DEBUG = 0;
 my $Brick = "";  # Brick name found
 my $Share = "";
 my $Volume = "";
-#my $Volume = exists $ENV{'volume'} ? $ENV{'volume'} : "none"; # Volume name
-#my $Share = exists $ENV{'share'} ? $ENV{'share'} : "none"; # Share name
 my $BlockSize = exists $ENV{'blocksize'} ? $ENV{'blocksize'} : "256"; # Block size for performance tests
 my $BlockCount = exists $ENV{'blockcount'} ? $ENV{'blockcount'} : "1"; # Block count for performance tests
 my $Type = "";  # Define what needs to be done
-
-# Make sure the volume name is defined
-#if ( ! defined $Volume or $Volume eq "none" ) {
-#  print "The volume name must be fined in plugin-conf.d \n";
-#  exit 1;
-#}
 
 # Make sure the share name is defined
 if ( ! defined $Share or $Share eq "none" ) {
@@ -63,9 +53,8 @@ if ( ! defined $Share or $Share eq "none" ) {
 }
 
 # Parse out Brick number desired from file name and remove whitespace
-my $Parameters = `basename $0 | sed 's/^glusterfs_//g'` ; 
+my $Parameters = `basename $0 | sed 's/^glusterfs_//g'` ;
 chomp $Parameters;
-#my ($b, $t) = split( /_/, $Parameters );
 my ($v, $b, $t) = split( /_/, $Parameters );
 
 if ( ! defined $v or $v eq "") {
@@ -135,7 +124,6 @@ my $CommandBrickParams = "";
 if ( defined $Brick and $Brick ne "" ) {
   $Brick = `gluster volume status ${Volume} | grep 'Brick ${Brick}:/' | awk '{print \$2}'`;
   $Brick =~ s/\n//;
-#  $CommandBrickParams = " brick ${Brick}:/${Share}";
   $CommandBrickParams = " brick ${Brick}";
 }
 
@@ -153,9 +141,6 @@ if ( $DEBUG == 1 ) {
 # This will create a label name correctly
 sub createLabelName {
   my $brickName = $_[0];
-#  $brickName =~ s/\./_/g; # Convert dots
-#  $brickName =~ s/:/_/g;  # Convert semicolons
-#  $brickName =~ s/\///g;  # Remove slashes
   return ($brickName);
 }
 
@@ -201,13 +186,9 @@ if ( $ARGV[0] and $ARGV[0] eq "config" ) {
       if ( $Type eq "open" ) {
         print "${bricklabel}_${Type}_current.label $brick $config{$Type}->{label} current\n";
         print "${bricklabel}_${Type}_current.info $brick Current $config{$Type}->{info_tag}\n";
-#        print "${bricklabel}_${Type}_max.label $brick $config{$Type}->{label} max\n";
-#        print "${bricklabel}_${Type}_max.info $brick Max $config{$Type}->{info_tag}\n";
       } else {
         print "${bricklabel}_${Type}_throughput.label $brick $config{$Type}->{label}\n";
         print "${bricklabel}_${Type}_throughput.info $brick $config{$Type}->{info_tag}\n";
-#        print "${bricklabel}_${Type}_time.label $brick $config{$Type}->{label} time in sec\n";
-#        print "${bricklabel}_${Type}_time.info $brick $config{$Type}->{info_tag} time in sec\n";
       }
     }
   }
@@ -232,13 +213,11 @@ foreach my $Line (@Output) {
     if ( $Line=~ /Current\sopen\sfds:\s+(\d+),\sMax\sopen\sfds:\s+(\d+)/i ) {
       my ($current, $max) = ($1, $2);
       print "${bricklabel}_${Type}_current.value $current\n";
-#      print "${bricklabel}_${Type}_max.value $max\n";
     }
   } else {
     if ( $Line=~ /Throughput\s+(\d+).(\d+)\s+MBps\s+time\s+(\d+).(\d+)\s+secs/i ) {
       my ($tpi, $tpf, $ti, $tf) = ($1, $2, $3, $4);
       print "${bricklabel}_${Type}_throughput.value $tpi.$tpf\n";
-#      print "${bricklabel}_${Type}_time.value $ti.$tf\n";
     }
   }
 }
