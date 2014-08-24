@@ -5,8 +5,8 @@ Munin GlusterFS plugin for glusterfs 3.2+
 
 This plugin can graph:
  - Open and maximum fd count
- - Read performance per brick (tested performance, not actual amount of data that has been read)
- - Write performance per brick (tested performance, not actual amount of data that has been written)
+ - Read performance per brick (tested performance, not actual read throughput)
+ - Write performance per brick (tested performance, not actual write throughput)
 
 ####Examples
 
